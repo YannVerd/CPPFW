@@ -65,13 +65,3 @@ int main()
 
     return 0;
 }
-
-void replaceElement(std::string wordToReplace, std::string replacement, std::string line)
-{
-    size_t len = wordToReplace.length();
-    size_t pos = line.find(wordToReplace);
-            if (pos != std::string::npos){
-                line.replace(pos, len, replacement);
-            }
-
-}

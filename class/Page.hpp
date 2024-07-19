@@ -8,15 +8,16 @@ class Page
     private:
         std::string title;
         std::string language;
-        void replaceElement(std::string wordToReplace, std::string replacement, std::string line);
+        std::string footerTemplate;
+        std::string headerTemplate;
+        void replaceElementByProp(std::string wordToReplace, std::string replacement, std::string& line);
+        void replaceElementByTemplate(std::string wordToReplace, std::string url, std::string& line);
 
     public:
         std::string getTitle();
-        Page(std::string title, std::string language);
+        Page(std::string title, std::string language, std::string footerTemplate, std::string headerTemplate);
         ~Page();
         void buildPage();
-
-
 };
 
 #endif // PAGE_HPP

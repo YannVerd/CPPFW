@@ -2,7 +2,7 @@
 <html lang={{language}}>
 <head>
   <meta charset="utf-8">
-  <title>Titre de la page</title>
+  <title>{{title}}</title>
   <link rel="stylesheet" href="./styles/style.css">
   <script src="script.js"></script>
 </head>

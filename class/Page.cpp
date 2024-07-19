@@ -9,10 +9,13 @@ string Page::getTitle()
     return this->title;
 }
 
-Page::Page(std::string title, std::string language)
+Page::Page(std::string title, std::string language, std::string footerTemplate, std::string headerTemplate)
 {
     this->title = title;
     this->language = language;
+    this->footerTemplate = footerTemplate;
+    this->headerTemplate = headerTemplate;
+    
 }
 
 Page::~Page(){}
@@ -30,7 +33,10 @@ void Page::buildPage()
     } 
 
     while(getline(templateHome, line)){
-      this->replaceElement("{{language}}", this->language, line);
+      this->replaceElementByProp("{{language}}", this->language, line);
+      this->replaceElementByProp("{{title}}", this->title, line);
+      this->replaceElementByTemplate("{{footer}}", this->footerTemplate, line);
+      this->replaceElementByTemplate("{{header}}", this->headerTemplate, line);
       content += line+"\n";
     }
     templateHome >> content;
@@ -44,7 +50,7 @@ void Page::buildPage()
     std::cout << this->getTitle() + " page created" << std::endl;
 }
 
-void replaceElement(std::string wordToReplace, std::string replacement, std::string line)
+void Page::replaceElementByProp(std::string wordToReplace, std::string replacement, std::string& line)
 {
     size_t len = wordToReplace.length();
     size_t pos = line.find(wordToReplace);
@@ -52,4 +58,25 @@ void replaceElement(std::string wordToReplace, std::string replacement, std::str
                 line.replace(pos, len, replacement);
             }
 
+}
+
+void Page::replaceElementByTemplate(std::string wordToReplace, std::string url, std::string &line)
+{
+    /* creating and fill styles.css file*/
+    std::cout << "replace "+wordToReplace+" by template" << std::endl;
+    std::ifstream templateUse(url);
+    std::string content;
+    std::string lineFile;
+    // Check if the file is successfully opened 
+    if (!templateUse.is_open()) { 
+        std::cerr << "Error opening the file!" << std::endl; 
+        return; 
+    } 
+    std::cout << "loading file..." << std::endl;
+    while(getline(templateUse, lineFile)){
+      content += lineFile+"\n";
+    }
+    templateUse >> content;
+    templateUse.close();
+    this->replaceElementByProp(wordToReplace, content, line);
 }

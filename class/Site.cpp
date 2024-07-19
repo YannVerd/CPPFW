@@ -57,7 +57,7 @@ void Site::buildSite()
     std::cout << "starting to build Page(s)..." << std::endl;
     for (auto i: this->pagesArray)
     {
-        Page page(i, this->getLanguage());
+        Page page(i, this->getLanguage(), this->footer, this->header);
         page.buildPage();
         
     }
