@@ -2,13 +2,15 @@
 <html lang={{language}}>
 <head>
   <meta charset="utf-8">
-  <title>{{title}}</title>
+  <title>{{name}}</title>
   <link rel="stylesheet" href="./styles/style.css">
   <script src="script.js"></script>
 </head>
 <body>
   {{header}}
-  
+  <main>
+    <p> Content Here </p>
+  </main>
   {{footer}}
 </body>
 </html>

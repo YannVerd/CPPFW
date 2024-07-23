@@ -1,5 +1,5 @@
 <header>
       <div>
-        <h1>{{Title}}</h1>
+        <h1>{{name}}</h1>
       </div>
 </header>

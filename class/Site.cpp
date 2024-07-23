@@ -32,6 +32,8 @@ void Site::buildSite()
     /* creating and fill styles.css file*/
     std::cout << "Creating stylesheet..." << std::endl;
     std::ifstream templateHome("/home/yann/Prog/CPPFW/templates/base.style.swt");
+    std::ifstream templatehf("/home/yann/Prog/CPPFW/templates/hfSP.style.swt");
+
     std::string content;
     std::string line;
     // Check if the file is successfully opened 
@@ -42,6 +44,9 @@ void Site::buildSite()
     std::cout << "loading file..." << std::endl;
     while(getline(templateHome, line)){
       content += line+"\n";
+    }
+    while(getline(templatehf, line)){
+        content += line+"\n";
     }
     templateHome >> content;
     templateHome.close();
@@ -57,7 +62,7 @@ void Site::buildSite()
     std::cout << "starting to build Page(s)..." << std::endl;
     for (auto i: this->pagesArray)
     {
-        Page page(i, this->getLanguage(), this->footer, this->header);
+        Page page(i, this->name, this->getLanguage(), this->footer, this->header);
         page.buildPage();
         
     }

@@ -9,9 +9,10 @@ string Page::getTitle()
     return this->title;
 }
 
-Page::Page(std::string title, std::string language, std::string footerTemplate, std::string headerTemplate)
+Page::Page(std::string title, std::string name, std::string language, std::string footerTemplate, std::string headerTemplate)
 {
     this->title = title;
+    this->name = name;
     this->language = language;
     this->footerTemplate = footerTemplate;
     this->headerTemplate = headerTemplate;
@@ -34,9 +35,10 @@ void Page::buildPage()
 
     while(getline(templateHome, line)){
       this->replaceElementByProp("{{language}}", this->language, line);
-      this->replaceElementByProp("{{title}}", this->title, line);
+      this->replaceElementByProp("{{name}}", this->name, line);
       this->replaceElementByTemplate("{{footer}}", this->footerTemplate, line);
       this->replaceElementByTemplate("{{header}}", this->headerTemplate, line);
+      this->replaceElementByProp("{{name}}", this->name, line);
       content += line+"\n";
     }
     templateHome >> content;
