@@ -32,7 +32,13 @@ void Site::buildSite()
     /* creating and fill styles.css file*/
     std::cout << "Creating stylesheet..." << std::endl;
     std::ifstream templateHome("/home/yann/Prog/CPPFW/templates/base.style.swt");
-    std::ifstream templatehf("/home/yann/Prog/CPPFW/templates/hfSP.style.swt");
+    std::ifstream templatehf;
+    if(this->pagesArray.size() > 1){
+        templatehf.open("/home/yann/Prog/CPPFW/templates/hfMP.style.swt");
+        this->setHeader(); // switch to Multi Page header
+    } else {
+        templatehf.open("/home/yann/Prog/CPPFW/templates/hfSP.style.swt");
+    }
 
     std::string content;
     std::string line;
@@ -77,7 +83,7 @@ void Site::setLanguage(std::string &choice){
 }
 
 void Site::setHeader(){
-    this->header = "../templates/headerSP.html.swt";
+    this->header = "/home/yann/Prog/CPPFW/templates/headerMPhtml.swt";
 }
 
 void Site::setName(std::string &newName){

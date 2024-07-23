@@ -8,7 +8,7 @@ class Site
 {
     private:
         std::vector<std::string> pagesArray;
-        std::string name;
+        std::string name; // site's name
         std::string language = "eng";
         std::vector<std::string> sectionsArray;
         std::string header = "/home/yann/Prog/CPPFW/templates/headerSP.html.swt"; // path to Single Page (SP) template
