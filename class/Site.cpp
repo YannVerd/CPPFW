@@ -2,8 +2,10 @@
 #include <iostream>
 #include <sys/stat.h>
 #include <fstream>
+#include <vector>
 
 #include "Page.hpp"
+
 
 void Site::setPagesArray(std::vector<std::string> &arrPages)
 {
@@ -39,6 +41,7 @@ void Site::buildSite()
     } else {
         templatehf.open("/home/yann/Prog/CPPFW/templates/hfSP.style.swt");
     }
+    this->completeNavbar();
 
     std::string content;
     std::string line;
@@ -83,9 +86,44 @@ void Site::setLanguage(std::string &choice){
 }
 
 void Site::setHeader(){
-    this->header = "/home/yann/Prog/CPPFW/templates/headerMPhtml.swt";
+    this->header = "/home/yann/Prog/CPPFW/templates/headerMP.html.swt";
 }
 
 void Site::setName(std::string &newName){
     this->name = newName;
+}
+
+void Site::completeNavbar()
+{
+    std::cout << "Starting create navbar.." << std::endl;
+    std::string nav;
+    std::string wordToReplace = "{{links}}";
+    // template nav construction
+    std::cout << "create navbar template" << std::endl;
+
+   
+    for(auto itr : this->pagesArray){
+        nav += "<a href="+itr+".html"+" >"+itr+"</a>";
+        std::cout << "adding link " + nav << std::endl;
+    }
+    std::ifstream templateHeader("/home/yann/Prog/CPPFW/templates/headerMP.html.swt");
+    std::string content;
+    std::string line;
+    // Check if the file is successfully opened 
+    if (!templateHeader.is_open()) { 
+        std::cerr << "Error opening the file!" << std::endl; 
+        return; 
+    } 
+    std::cout << "complete header template..." << std::endl;
+    while(getline(templateHeader, line)){
+        size_t len = wordToReplace.length();
+        size_t pos = line.find(wordToReplace);
+        if (pos != std::string::npos){
+            line.replace(pos, len, nav);
+            std::cout << line << std::endl;
+        }
+        content += line+"\n";
+    }
+    templateHeader >> content;
+    templateHeader.close();
 }

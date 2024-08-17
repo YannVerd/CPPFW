@@ -12,7 +12,8 @@ class Site
         std::string language = "eng";
         std::vector<std::string> sectionsArray;
         std::string header = "/home/yann/Prog/CPPFW/templates/headerSP.html.swt"; // path to Single Page (SP) template
-        std::string footer = "/home/yann/Prog/CPPFW/templates/footer.html.swt"; 
+        std::string footer = "/home/yann/Prog/CPPFW/templates/footer.html.swt";
+        void completeNavbar();
     public:
         ~Site();
         void buildSite();

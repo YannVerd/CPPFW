@@ -47,10 +47,6 @@ int main()
         std::vector<std::string> arraySections = stringToVector(sections);
 
         site.setSectionsArray(arraySections);
-
-        
-        
-
     }
     site.setPagesArray(arrayPages);
 
