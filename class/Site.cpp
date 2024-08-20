@@ -23,7 +23,7 @@ Site::~Site(){}
 
 void Site::buildSite()
 {   
-    /* Creating folder style */
+    /* Creating folders */
     std::cout << "Creating folder(s)..." << std::endl;
     if (mkdir("./styles", 0777) == 0) { 
         std::cout << "Folder created successfully." << std::endl; 
@@ -37,11 +37,11 @@ void Site::buildSite()
     std::ifstream templatehf;
     if(this->pagesArray.size() > 1){
         templatehf.open("/home/yann/Prog/CPPFW/templates/hfMP.style.swt");
-        this->setHeader(); // switch to Multi Page header
+        this->setHeaderURL(); // switch to Multi Page header
     } else {
         templatehf.open("/home/yann/Prog/CPPFW/templates/hfSP.style.swt");
     }
-    this->completeNavbar();
+    this->completeHeader();
 
     std::string content;
     std::string line;
@@ -71,7 +71,7 @@ void Site::buildSite()
     std::cout << "starting to build Page(s)..." << std::endl;
     for (auto i: this->pagesArray)
     {
-        Page page(i, this->name, this->getLanguage(), this->footer, this->header);
+        Page page(i, this->name, this->getLanguage(), this->headerURL, this->footerURL, this->footerTemplate, this->headerTemplate);
         page.buildPage();
         
     }
@@ -85,45 +85,86 @@ void Site::setLanguage(std::string &choice){
     this->language = choice;
 }
 
-void Site::setHeader(){
-    this->header = "/home/yann/Prog/CPPFW/templates/headerMP.html.swt";
+void Site::setHeaderURL(){
+    this->headerURL = "/home/yann/Prog/CPPFW/templates/headerMP.html.swt";
 }
 
 void Site::setName(std::string &newName){
     this->name = newName;
 }
 
-void Site::completeNavbar()
+void Site::completeHeader()
 {
-    std::cout << "Starting create navbar.." << std::endl;
+    std::cout << "Starting create Header.." << std::endl;
     std::string nav;
-    std::string wordToReplace = "{{links}}";
-    // template nav construction
-    std::cout << "create navbar template" << std::endl;
-
-   
-    for(auto itr : this->pagesArray){
-        nav += "<a href="+itr+".html"+" >"+itr+"</a>";
-        std::cout << "adding link " + nav << std::endl;
-    }
-    std::ifstream templateHeader("/home/yann/Prog/CPPFW/templates/headerMP.html.swt");
     std::string content;
-    std::string line;
+    
+    std::string wordToReplaceAsName = "{{name}}";
+    std::string wordToReplaceAsLinks = "{{links}}";
+    std::string line;  
     // Check if the file is successfully opened 
-    if (!templateHeader.is_open()) { 
-        std::cerr << "Error opening the file!" << std::endl; 
-        return; 
-    } 
-    std::cout << "complete header template..." << std::endl;
-    while(getline(templateHeader, line)){
-        size_t len = wordToReplace.length();
-        size_t pos = line.find(wordToReplace);
-        if (pos != std::string::npos){
-            line.replace(pos, len, nav);
-            std::cout << line << std::endl;
+    
+        
+    // template nav construction
+    if(this->pagesArray.size()> 1) {
+        std::ifstream templateHeader("/home/yann/Prog/CPPFW/templates/headerMP.html.swt");
+        if (!templateHeader.is_open()) { 
+            std::cerr << "Error opening the file!" << std::endl; 
+            return; 
+        } 
+        std::cout << "create navbar template" << std::endl;
+        for(auto itr : this->pagesArray){
+            nav += "<a href="+itr+".html"+" >"+itr+"</a>";
+            std::cout << "adding link " + nav << std::endl;
         }
-        content += line+"\n";
-    }
-    templateHeader >> content;
-    templateHeader.close();
+        std::cout << "complete header template..." << std::endl;
+        while(getline(templateHeader, line)){
+            size_t len1 = wordToReplaceAsName.length();
+            size_t len2 = wordToReplaceAsLinks.length();
+            size_t pos1 = line.find(wordToReplaceAsName);
+            size_t pos2 = line.find(wordToReplaceAsLinks);
+            if (pos1 != std::string::npos){
+                line.replace(pos1, len1, this->getName());
+                std::cout << line << std::endl;
+            }
+            if (pos2 != std::string::npos){
+                    line.replace(pos2, len2, nav);
+                    std::cout << line << std::endl;
+            }
+            content += line+"\n";
+        }
+        templateHeader.close();
+        
+    }else{ // Single Page build
+        std::ifstream templateHeader("/home/yann/Prog/CPPFW/templates/headerSP.html.swt");
+        while(getline(templateHeader, line)){
+            size_t len = wordToReplaceAsName.length();
+            size_t pos = line.find(wordToReplaceAsName);
+            if (pos != std::string::npos){
+                line.replace(pos, len, this->getName());
+                std::cout << line << std::endl;
+            }
+
+            content += line+"\n";
+        }
+
+        templateHeader.close();
+    }           
+
+    std::cout << content << std::endl;
+
+    this->setHeaderTemplate(content);
+    
+}
+
+void Site::setFooterTemplate(std::string footer){
+    this->footerTemplate = footer;
+}
+std::string Site::getName()
+{
+    return this->name;
+}
+void Site::setHeaderTemplate(std::string header)
+{
+    this->headerTemplate = header;
 }

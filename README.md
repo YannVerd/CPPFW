@@ -1,3 +1,4 @@
-Dans la méthode complete NavBar de la classe Site, la création des liens se fait bien dans la variable nav mais {{links}} dans le template n'est pas remplacé
+Need to clean code in the BuildSite's method of Site class
 
+go to the roadmap to next step
 
