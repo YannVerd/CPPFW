@@ -1,4 +1,2 @@
-Need to clean code in the BuildSite's method of Site class
-
-go to the roadmap to next step
+css and html framework to generate the basis for a static site
 
