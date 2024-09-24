@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <ncurses.h>
 
 #include "class/Site.hpp"
 
@@ -19,6 +20,8 @@ std::vector<std::string> stringToVector(std::string &string){
 
 int main()
 {
+   
+
     std::cout << " Welcome to my auto generate static web site" << std::endl;
     std::cout << "Which pages would like ? Select from this list which ones you would like: " << std::endl;
     std::cout << " * home" << std::endl;
@@ -58,6 +61,8 @@ int main()
     site.setName(nameSite);
 
     site.buildSite();
+
+
 
     return 0;
 }
