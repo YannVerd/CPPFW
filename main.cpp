@@ -20,15 +20,14 @@ std::vector<std::string> stringToVector(std::string &string){
 
 int main()
 {
-   
 
     std::cout << " Welcome to my auto generate static web site" << std::endl;
-    std::cout << "Which pages would like ? Select from this list which ones you would like: " << std::endl;
+    std::cout << "Which pages would you like? Please select the pages you would like from the list below (separate names with a space): " << std::endl;
     std::cout << " * home" << std::endl;
     std::cout << " * portfolio" << std::endl;
     std::cout << " * services" << std::endl;
     std::cout << " * contact" << std::endl;
-    std::cout << "If you want a Single Page Site, just write 'home' : " << std::endl;
+    std::cout << "If you want a Single Page Site, simply write 'home' : " << std::endl;
     std::string pages;
     std::string sections;
     std::getline(std::cin, pages);
